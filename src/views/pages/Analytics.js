@@ -26,10 +26,6 @@ export default class AnalyticsPage extends Component {
         };
     }
 
-    componentDidMount() {
-        console.log(this.props)
-    }
-
     render() {
         const chartColors = {
             red: 'rgb(233, 30, 99)',
@@ -80,19 +76,29 @@ export default class AnalyticsPage extends Component {
                     {
                         label: 'PI',
                         data: [3.675, 2, 5, 4.44, 3.4],
+                        /*data: this.sample.map(v => Object.values(v)),*/
                         borderColor: 'transparent',
                         backgroundColor: chartColors.primaryShade3,
                         pointBackgroundColor: 'rgba(0,0,0,0)',
                         pointBorderColor: 'rgba(0,0,0,0)',
-                        borderWidth: 4
-                    }
+                        borderWidth: 4,
+                    },
+                    {
+                        label: 'cs',
+                        data: [3, 5, 2, 4.44, 1, 7],
+                        /*data: this.sample.map(v => Object.values(v)),*/
+                        borderColor: 'transparent',
+                        backgroundColor: chartColors.green,
+                        fill: false
+                    },
+
                 ]
             },
             options: {
                 scales: {
                     xAxes: [
                         {
-                            display: false
+                            display: true
                         }
                     ],
                     yAxes: [
@@ -153,10 +159,7 @@ export default class AnalyticsPage extends Component {
              },
          ]
 */
-        const sample = [
-            {date: '2021-01', ps: 4.72, WEB: 4.223, WEB_Browser_Integrity: 4.2},
-            {date: '2021-01', ps: 4.572, WEB: 4.68, WEB_Browser_Integrity: 4.0},
-        ]
+
 
         const columns = [
             /* {title: "date", field: "date", },
@@ -174,7 +177,7 @@ export default class AnalyticsPage extends Component {
             layout: "fitColumns",
             columnMinWidth: 150,
             autoColumns: true,
-            tooltipsHeader:true,
+            tooltipsHeader: true,
             downloadDataFormatter: (data) => data,
             downloadReady: (fileContents, blob) => blob,
             /*dataTree: true,
@@ -285,7 +288,7 @@ export default class AnalyticsPage extends Component {
         </Row>*/}
                     <hr/>
                     <Row>
-                        <Col md={8} sm={12}>
+                        <Col md={{size: 10, offset: 1}}>
                             <Card>
                                 <CardHeader>Traffic</CardHeader>
                                 <CardBody>
@@ -301,7 +304,7 @@ export default class AnalyticsPage extends Component {
                                 </CardBody>
                             </Card>
                         </Col>
-                        <Col md={4} sm={12}>
+                        {/*<Col md={4} sm={12}>
                             <Card>
                                 <CardHeader>Product Views</CardHeader>
                                 <CardBody>
@@ -313,7 +316,7 @@ export default class AnalyticsPage extends Component {
                                     />
                                 </CardBody>
                             </Card>
-                        </Col>
+                        </Col>*/}
                     </Row>
 
                     {/*<Row>

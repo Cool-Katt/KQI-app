@@ -105,7 +105,7 @@ export default {
       ],
     },
     {
-      name: 'Geo-location',
+      name: 'Region',
       icon: 'Globe',
       children: [
         {

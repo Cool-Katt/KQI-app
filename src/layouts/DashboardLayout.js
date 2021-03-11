@@ -11,6 +11,8 @@ import handleKeyAccessibility, { handleClickAccessibility } from '../vibe/helper
 
 const MOBILE_SIZE = 992;
 
+export const DashboardLayoutContext = React.createContext();
+
 export default class DashboardLayout extends Component {
   constructor(props) {
     super(props);
@@ -78,14 +80,19 @@ export default class DashboardLayout extends Component {
               >
                 {/*<HeaderNav />*/}
               </Header>
-              <PageContent>
+              <DashboardLayoutContext.Provider value={{
+                sidebarCollapsed: this.state.sidebarCollapsed,
+                toggleSideCollapse: this.toggleSideCollapse
+              }}>
+              <PageContent >
                 <Switch>
                   {routes.map((page, key) => (
                     <Route path={page.path} component={page.component} key={key} />
                   ))}
-                  <Redirect from="/" to="/home" />
+                  <Redirect from="/" to="/home"/>
                 </Switch>
               </PageContent>
+              </DashboardLayoutContext.Provider>
             </Page>
           </div>
           <Footer>

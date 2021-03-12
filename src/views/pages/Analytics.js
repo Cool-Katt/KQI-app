@@ -15,24 +15,58 @@ import 'react-tabulator/lib/css/bootstrap/tabulator_bootstrap4.min.css';
 import {ReactTabulator} from 'react-tabulator'
 import {DashboardLayoutContext} from "../../layouts/DashboardLayout";
 
+const chartColors = {
+    red: 'rgb(233, 30, 99)',
+    danger: 'rgb(233, 30, 99)',
+    dangerTransparent: 'rgba(233, 30, 99, 0.8)',
+    orange: 'rgb(255, 159, 64)',
+    yellow: 'rgb(255, 180, 0)',
+    green: 'rgb(34, 182, 110)',
+    blue: 'rgb(68, 159, 238)',
+    primary: 'rgb(68,159,238)',
+    primaryTransparent: 'rgba(68,159,238,0.8)',
+    purple: 'rgb(153, 102, 255)',
+    grey: 'rgb(201, 203, 207)',
+
+    primaryShade1: 'rgb(68,159,238)',
+    primaryShade2: 'rgb(23,139,234)',
+    primaryShade3: 'rgb(14,117,202)',
+    primaryShade4: 'rgb(9,85,148)',
+    primaryShade5: 'rgb(12,70,117)',
+    primaryShade6: 'rgb(10,56,93)',
+    primaryShade7: 'rgb(10,49,81)',
+};
+
 function handler(data) {
     let labels = [];
     let datasets = [];
-
-        const objKeys = Object.keys(Object.values(data).shift());
-        objKeys.forEach((key) => {
-            const newObj = {
-                label: key,
-                data: [],
-                backgroundColor: 'rgb(68, 159, 238)',
-                fill: false,
-            }
-            data.forEach((obj) => {
-                newObj['data'].push(obj[key]);
-            })
-            datasets.push(newObj);
+    let count = 11;
+    const objKeys = Object.keys(Object.values(data).shift());
+    objKeys.forEach((key) => {
+        const newObj = {
+            label: key,
+            data: [],
+            backgroundColor: chartColors[Object.keys(chartColors)[Math.floor(Math.random()*Object.keys(chartColors).length)]],
+            //backgroundColor: Object.values(chartColors)[count++],
+            fill: false,
+        }
+        data.forEach((obj) => {
+            newObj['data'].push(obj[key]);
         })
+        datasets.push(newObj);
+    })
     labels = datasets.shift().data;
+    /*let ddd = JSON.parse(JSON.stringify(datasets));
+    let avr = [];
+    ddd.forEach((o) => {
+        avr.push(o.data.reduce((a,b) => a + b, 0)/o.data.length);
+    })
+for (let i = 0; i < avr.length; i++) {
+    if (avr[i] < 10* avr[i+1])
+    {
+        datasets[i]['yAxisID'] = 'ass';
+    }
+}*/
     return ({
         labels,
         datasets,
@@ -50,26 +84,6 @@ export default class AnalyticsPage extends Component {
     }
 
     render() {
-        const chartColors = {
-            red: 'rgb(233, 30, 99)',
-            danger: 'rgb(233, 30, 99)',
-            dangerTransparent: 'rgba(233, 30, 99, .8)',
-            orange: 'rgb(255, 159, 64)',
-            yellow: 'rgb(255, 180, 0)',
-            green: 'rgb(34, 182, 110)',
-            blue: 'rgb(68, 159, 238)',
-            primary: 'rgb(68, 159, 238)',
-            primaryTransparent: 'rgba(68, 159, 238, .8)',
-            purple: 'rgb(153, 102, 255)',
-            grey: 'rgb(201, 203, 207)',
-
-            primaryShade1: 'rgb(68,159,238)',
-            primaryShade2: 'rgb(23,139,234)',
-            primaryShade3: 'rgb(14,117,202)',
-            primaryShade4: 'rgb(9,85,148)',
-            primaryShade5: 'rgb(12,70,117)',
-            primaryShade6: 'rgb(10,56,93)',
-        };
         const donutData = {
             labels: ['Q1', 'Q2', 'Q3', 'Q4', 'Q5'],
             datasets: [
@@ -93,31 +107,31 @@ export default class AnalyticsPage extends Component {
             ]
         };
         const line = {
-            data: {
+            /*data: {
                 labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
                 datasets: [
                     {
                         label: 'PI',
                         data: [3.675, 2, 5, 4.44, 3.4],
                         backgroundColor: chartColors.primary
-                        /*data: this.sample.map(v => Object.values(v)),*/
-                        /*borderColor: 'transparent',
+                        /!*data: this.sample.map(v => Object.values(v)),*!/
+                        /!*borderColor: 'transparent',
                         backgroundColor: chartColors.primaryShade3,
                         pointBackgroundColor: 'rgba(0,0,0,0)',
                         pointBorderColor: 'rgba(0,0,0,0)',
-                        borderWidth: 4,*/
+                        borderWidth: 4,*!/
                     },
                     {
                         label: 'cs',
                         data: [3, 5, 2, 4.44, 1, 7],
-                        /*data: this.sample.map(v => Object.values(v)),*/
+                        /!*data: this.sample.map(v => Object.values(v)),*!/
                         borderColor: 'transparent',
                         backgroundColor: chartColors.green,
                         fill: false
                     },
 
                 ]
-            },
+            },*/
             options: {
                 scales: {
                     xAxes: [
@@ -177,7 +191,7 @@ export default class AnalyticsPage extends Component {
                 PS: 4.72,
                 WEB: 4.223,
                 WEB_Browser_Integrity: 4.0,
-            },
+            }
         ]
 
 
@@ -313,9 +327,9 @@ export default class AnalyticsPage extends Component {
                                 <CardHeader>Traffic</CardHeader>
                                 <CardBody>
                                     <div className="full-bleed">
-                                        <Line
+                                        <Bar
                                             //data={line.data}
-                                            data={handler(sampleKQI)}
+                                            data={handler(samplePI)}
                                             width={2068}
                                             height={846}
                                             legend={{display: false}}

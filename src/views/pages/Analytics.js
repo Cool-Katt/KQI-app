@@ -81,6 +81,10 @@ export default class AnalyticsPage extends Component {
             facebook: true,
             twitter: false
         };
+
+        if (!props.location.state) {
+            props.location.state = {}
+        }
     }
 
     render() {
@@ -141,7 +145,7 @@ export default class AnalyticsPage extends Component {
                     ],
                     yAxes: [
                         {
-                            display: false,
+                            display: true,
                             ticks: {
                                 suggestedMin: 0,
                             }

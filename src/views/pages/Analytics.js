@@ -15,6 +15,29 @@ import 'react-tabulator/lib/css/bootstrap/tabulator_bootstrap4.min.css';
 import {ReactTabulator} from 'react-tabulator'
 import {DashboardLayoutContext} from "../../layouts/DashboardLayout";
 
+function handler(data) {
+    let labels = [];
+    let datasets = [];
+
+        const objKeys = Object.keys(Object.values(data).shift());
+        objKeys.forEach((key) => {
+            const newObj = {
+                label: key,
+                data: [],
+                backgroundColor: 'rgb(68, 159, 238)',
+                fill: false,
+            }
+            data.forEach((obj) => {
+                newObj['data'].push(obj[key]);
+            })
+            datasets.push(newObj);
+        })
+    labels = datasets.shift().data;
+    return ({
+        labels,
+        datasets,
+    });
+}
 
 export default class AnalyticsPage extends Component {
     constructor(props) {
@@ -76,12 +99,13 @@ export default class AnalyticsPage extends Component {
                     {
                         label: 'PI',
                         data: [3.675, 2, 5, 4.44, 3.4],
+                        backgroundColor: chartColors.primary
                         /*data: this.sample.map(v => Object.values(v)),*/
-                        borderColor: 'transparent',
+                        /*borderColor: 'transparent',
                         backgroundColor: chartColors.primaryShade3,
                         pointBackgroundColor: 'rgba(0,0,0,0)',
                         pointBorderColor: 'rgba(0,0,0,0)',
-                        borderWidth: 4,
+                        borderWidth: 4,*/
                     },
                     {
                         label: 'cs',
@@ -119,7 +143,6 @@ export default class AnalyticsPage extends Component {
             }
         };
 
-
         const sampleKQI = [
             {
                 date: '2021-02-16',
@@ -142,23 +165,20 @@ export default class AnalyticsPage extends Component {
             },
         ]
 
-        /* const samplePI = [
-             {
-                 date: '2021-01', _children: [
-                     {name: 'PS', value: 4.572,},
-                     {name: 'WEB', value: 4.68,},
-                     {name: 'WEB_Browser_Integrity', value: 4.2,},
-                 ]
-             },
-             {
-                 date: '2020-12', _children: [
-                     {name: 'PS', value: 4.72,},
-                     {name: 'WEB', value: 4.223,},
-                     {name: 'WEB_Browser_Integrity', value: 4.0,},
-                 ]
-             },
-         ]
-*/
+        const samplePI = [
+            {
+                date: '2021-01',
+                PS: 4.572,
+                WEB: 4.68,
+                WEB_Browser_Integrity: 4.2,
+            },
+            {
+                date: '2020-12',
+                PS: 4.72,
+                WEB: 4.223,
+                WEB_Browser_Integrity: 4.0,
+            },
+        ]
 
 
         const columns = [
@@ -213,7 +233,7 @@ export default class AnalyticsPage extends Component {
                             <Card>
                                 <CardHeader> Table </CardHeader>
                                 <CardBody>
-                                    <ReactTabulator data={sampleKQI}
+                                    <ReactTabulator data={samplePI}
                                                     columns={columns}
                                                     options={options}
                                                     ref={ref => (this.ref = ref)}
@@ -293,8 +313,9 @@ export default class AnalyticsPage extends Component {
                                 <CardHeader>Traffic</CardHeader>
                                 <CardBody>
                                     <div className="full-bleed">
-                                        <Bar
-                                            data={line.data}
+                                        <Line
+                                            //data={line.data}
+                                            data={handler(sampleKQI)}
                                             width={2068}
                                             height={846}
                                             legend={{display: false}}
